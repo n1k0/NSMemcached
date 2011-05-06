@@ -38,10 +38,35 @@ class NamespacedClient(object):
         """
         return getattr(self.mc, name)
 
+    def add(self, key, val, time=0, min_compress_len=0, ns=None):
+        """ Stores a value in an optionaly namespaced key.
+        """
+        return self.mc.add(self._compute_key(key, ns), val, time=time,
+            min_compress_len=min_compress_len)
+
+    def append(self, key, val, time=0, min_compress_len=0, ns=None):
+        """ Appends the value to the end of the existing optinaly namespaced
+            key's value.
+        """
+        return self.mc.append(self._compute_key(key, ns), val, time=time,
+            min_compress_len=min_compress_len)
+
+    def cas(self, key, val, time=0, min_compress_len=0, ns=None):
+        """ Sets an optionaly namespaced key to a given value in the memcache
+            if it hasn't been altered since last fetched.
+        """
+        return self.mc.cas(self._compute_key(key, ns), val, time=time,
+            min_compress_len=min_compress_len)
+
     def clear_ns(self, ns):
         """ Cleans all cached values for all keys within the given namespace.
         """
         self.mc.incr(self._compute_ns_key(ns))
+
+    def decr(self, key, delta=1, ns=None):
+        """ Decrements a value stored in an optionaly namspaced key.
+        """
+        return self.mc.decr(self._compute_key(key, ns), delta=delta)
 
     def delete(self, key, ns=None, time=0):
         """ Deletes a cached value by its key and an optional namespace.
@@ -54,6 +79,11 @@ class NamespacedClient(object):
         """
         return self.mc.get(self._compute_key(key, ns))
 
+    def gets(self, key, ns=None):
+        """ Retrieves a value stored in an optionaly namespaced key.
+        """
+        return self.mc.gets(self._compute_key(key, ns))
+
     def get_ns_key(self, ns):
         """ Retrieves the stored namespace key name, creates it if it doesn't
             exist.
@@ -64,6 +94,24 @@ class NamespacedClient(object):
             self.mc.set(self._compute_ns_key(ns), ns_key)
         return ns_key
 
+    def incr(self, key, delta=1, ns=None):
+        """ Increments a value stored in an optionaly namspaced key.
+        """
+        return self.mc.incr(self._compute_key(key, ns), delta=delta)
+
+    def prepend(self, key, val, time=0, min_compress_len=0, ns=None):
+        """ Prepends the value at the beginning of the existing optinaly
+            namespaced key's value.
+        """
+        return self.mc.prepend(self._compute_key(key, ns), val, time=time,
+            min_compress_len=min_compress_len)
+
+    def replace(self, key, val, time=0, min_compress_len=0, ns=None):
+        """ Replaces existing optoinaly namespaced key with value.
+        """
+        return self.mc.replace(self._compute_key(key, ns), val, time=time,
+            min_compress_len=min_compress_len)
+
     def set(self, key, val, ns=None, **kwargs):
         """ Stores a values with given key, optionnaly within a given
             namespace.
@@ -73,6 +121,8 @@ class NamespacedClient(object):
     def _compute_key(self, key, ns=None):
         """ Computes key name, depending if it's tied to a namespace.
         """
+        if not isinstance(key, basestring):
+            raise NotImplementedError('nsmemcached only handles string keys')
         if ns:
             key = '%s_%d_%s' % (ns, self.get_ns_key(ns), str(key),)
         return str(key)
@@ -80,4 +130,6 @@ class NamespacedClient(object):
     def _compute_ns_key(self, ns):
         """ Computes a namespace key name.
         """
+        if not isinstance(ns, basestring):
+            raise NotImplementedError('nsmemcached only handles string ns')
         return str('%s_ns_key' % ns)

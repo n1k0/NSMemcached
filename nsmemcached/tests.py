@@ -37,7 +37,7 @@ class CacheTest(unittest.TestCase):
         self.assertEquals(self.client.cas('foo', 'baz', ns='bar'), True)
         self.assertEquals(self.client.get('foo', ns='bar'), 'baz')
 
-    def test_get_set_gets(self):
+    def test_get_set_gets_delete_clear(self):
         self.client.flush_all()
         self.assertEquals(self.client.get('blah'), None)
         self.client.set('blah', 2)
@@ -55,7 +55,7 @@ class CacheTest(unittest.TestCase):
         self.assertEquals(self.client.get('blah'), 2)
         # namespaced key deletion
         self.client.delete('blah', ns='bar')
-        self.assertEquals(self.client.delete('blah', ns='bar'), None)
+        self.assertEquals(self.client.get('blah', ns='bar'), None)
         # gets
         self.client.set('foo', 2, ns='bar')
         self.assertEquals(self.client.gets('foo', ns='bar'), 2)

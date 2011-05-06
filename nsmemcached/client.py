@@ -71,7 +71,7 @@ class NamespacedClient(object):
     def delete(self, key, ns=None, time=0):
         """ Deletes a cached value by its key and an optional namespace.
         """
-        self.mc.delete(self._compute_key(key), time=time)
+        return self.mc.delete(self._compute_key(key, ns), time=time)
 
     def get(self, key, ns=None):
         """ Retrieve a stored value by its key, optionnaly within a given

@@ -61,7 +61,7 @@ class NamespacedClient(object):
     def clear_ns(self, ns):
         """ Cleans all cached values for all keys within the given namespace.
         """
-        self.mc.incr(self._compute_ns_key(ns))
+        return self.mc.incr(self._compute_ns_key(ns)) > 0
 
     def decr(self, key, delta=1, ns=None):
         """ Decrements a value stored in an optionaly namspaced key.

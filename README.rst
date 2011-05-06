@@ -1,5 +1,5 @@
 ===========================
- README: NSMemcached 0.2.0
+ README: NSMemcached 0.2.1
 ===========================
 
 :Author: Nicolas Perriault
@@ -10,7 +10,7 @@
 Abstract
 ========
 
-NSMemcached is simple yet efficient Python implementation of a
+NSMemcached_ is simple yet efficient Python implementation of a
 `namespaced client`_ for memcached_ on top of the python-memcached_ package.
 
 Quick Start
@@ -18,10 +18,8 @@ Quick Start
 
 Sample usage:
 
-    >>> import memcache
-    >>> from nsmemcached.client import NamespacedClient
-    >>> std_client = memcache.Client(['127.0.0.1:11211'])
-    >>> ns_client = NamespacedClient(std_client)
+    >>> from nsmemcached import Client
+    >>> ns_client = Client(['127.0.0.1:11211'])
     >>> ns_client.set('foo', 'bar', ns='barspace')
     True
     >>> ns_client.get('foo', ns='barspace')
@@ -45,12 +43,12 @@ non-namespaced `memcached API`_.
 Dependencies and Compatibility
 ==============================
 
-NSMemcached requires the use of Python 2.4 or more recent.
+NSMemcached_ requires the use of Python 2.4 or more recent.
 
 Installing python-memcached_ package is required in order to use this library,
 as well as a working memcached_ server instance, obviously.
 
-NSMemcached is fully compatible with the API of the standard python-memcached_
+NSMemcached_ is fully compatible with the API of the standard python-memcached_
 client.
 
 License
@@ -66,6 +64,7 @@ Nicolas Perriault, AKEI_, ``<np at akei com>``
 .. _namespaced client: http://code.google.com/p/memcached/wiki/FAQ#Deleting_by_Namespace
 .. _memcached: http://memcached.org/
 .. _memcached API: http://code.google.com/p/memcached/wiki/NewCommands
+.. _NSMemcached: http://pypi.python.org/pypi/NSMemcached
 .. _python-memcached: http://pypi.python.org/pypi/python-memcached/
 .. _MIT License: http://en.wikipedia.org/wiki/MIT_License
 .. _AKEI: http://akei.com/

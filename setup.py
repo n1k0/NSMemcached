@@ -11,6 +11,7 @@ setup(
     description='A simple implementation of a namespaced memcached client',
     author='Nicolas Perriault',
     author_email='np@akei.com',
+    url='https://github.com/n1k0/NSMemcached',
     packages=['nsmemcached', ],
     requires=['python_memcached (>=1.47, <2.0)', ],
     license='MIT',

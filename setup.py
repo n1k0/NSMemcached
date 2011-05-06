@@ -14,5 +14,5 @@ setup(
     packages=['nsmemcached', ],
     requires=['python_memcached (>=1.47, <2.0)', ],
     license='MIT',
-    long_description=open('README.txt').read(),
+    long_description=open('README.rst').read(),
 )
